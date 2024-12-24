@@ -1,0 +1,58 @@
+# Estrutura do projeto:
+myapi/
+│
+├── alembic/              # Migrações do banco de dados
+│   └── versions/
+│
+├── app/
+│   ├── __init__.py
+│   ├── main.py          # Ponto de entrada da aplicação
+│   │
+│   ├── api/             # Rotas da API
+│   │   ├── __init__.py
+│   │   ├── v1/
+│   │   │   ├── __init__.py
+│   │   │   ├── endpoints/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── task.py
+│   │   │   │   └── user.py
+│   │   │   └── router.py
+│   │   └── deps.py      # Dependências compartilhadas
+│   │
+│   ├── core/            # Configurações centrais
+│   │   ├── __init__.py
+│   │   ├── config.py    # Configurações da aplicação
+│   │   └── security.py  # Segurança e autenticação
+│   │
+│   ├── crud/            # Operações CRUD
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── crud_task.py
+│   │   └── crud_user.py
+│   │
+│   ├── db/              # Configuração do banco de dados
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   └── session.py
+│   │
+│   ├── models/          # Modelos SQLAlchemy
+│   │   ├── __init__.py
+│   │   ├── task.py
+│   │   └── user.py
+│   │
+│   └── schemas/         # Schemas Pydantic
+│       ├── __init__.py
+│       ├── task.py
+│       └── user.py
+│
+├── tests/               # Testes
+│   ├── __init__.py
+│   ├── conftest.py
+│   └── test_api/
+│
+├── .env                 # Variáveis de ambiente
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
+└── README.md
