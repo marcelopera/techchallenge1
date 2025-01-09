@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from app.api import deps
-from app.schemas.hello import Hello
+from app.schemas.token import Hello
 from app.core.security import require_jwt
 
 router = APIRouter()

@@ -1,24 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import timezone, timedelta, datetime
 from typing import Optional, Union
 from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel
+from app.schemas.token import Token, TokenData
+from app.core.config import settings
 
-# Configurações do JWT
-SECRET_KEY = "sua_chave_secreta_muito_segura"  # Em produção, use variável de ambiente
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# Schema do token
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-class TokenData(BaseModel):
-    username: Optional[str] = None
-
-# Bearer token scheme
 security = HTTPBearer()
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -26,21 +13,19 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     Cria um novo token JWT
     """
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(datetime.timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(datetime.timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    
+    expire = datetime.now(timezone.utc) + (
+        expires_delta if expires_delta 
+        else timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    )
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 def verify_token(token: str) -> Union[dict, bool]:
     """
     Verifica se um token JWT é válido
     """
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
     except JWTError:
         return False

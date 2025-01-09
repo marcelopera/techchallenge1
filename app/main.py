@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from app.api.v1.router import api_router
 from app.core.config import settings
+from app.core.database import Base, engine
+from app.scripts.load_cached_data import load_cached_data
+
+Base.metadata.create_all(bind=engine)
+load_cached_data()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
