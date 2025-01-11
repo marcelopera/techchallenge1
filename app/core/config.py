@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "TECH_CHALLENGE_1"
     VERSION: str = "0.0.1-SNAPSHOT"
     API_V1_STR: str = "/api/v1"
+    pythondontwritebytecode: str = "1"
+    pythonunbuffered: str = "1"
     
     # JWT Settings
     SECRET_KEY: str
