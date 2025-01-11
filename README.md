@@ -41,72 +41,48 @@ O servidor vai iniciar em http://localhost:8000
 
 
 #### Instalando e rodando sem o Docker
-1. Clone the repository
-2. Install dependencies:
+1. Clone o repositório
+2. Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-##### Cacheando os dados
-1. Cache Embrapa data:
+3. Cache Embrapa data:
 
 ```bash
 python3 -m app.scripts.cache_embrapa
 ```
 
-2. Start the API server:
+4. Inicia o Servidor:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The server will start at http://localhost:8000
+O servidor vai iniciar em http://localhost:8000
 
 ### API Endpoints
 
-#### Authentication
+#### Autenticação
 
-- POST /api/v1/auth/login - Login with username and password
-- POST /api/v1/auth/sign-in - Create new account
-- PUT /api/v1/auth/update_password - Update password (requires authentication)
+- POST /api/v1/auth/login - login com usuário e senha
+- POST /api/v1/auth/sign-in - Cria um novo usuário
 
 #### Embrapa Data
 
-- GET /api/v1/embrapa/query - Get viticulture data (requires authentication)
-- GET /api/v1/embrapa/description - Get data descriptions (requires authentication)
+- GET /api/v1/embrapa/query - Recupera dados de vitivinicultura (requer autenticação)
+- GET /api/v1/embrapa/description - Recupera dados de descrição (requer autenticação)
 
-#### Documentation
+#### Documentação
 
-API documentation is available at:
+Documentação da API disponível em:
 
 - Swagger UI: http://localhost:8000/docs
 - OpenAPI JSON: http://localhost:8000/api/v1/openapi.json
 
 #### Database
-The application uses SQLite with the following main table:
+A aplicação utiliza sqlite
 
-- dados_vitivinicultura: Stores all viticulture data from Embrapa
-
-#### Environment Variables
-Create a .env file with:
-
-```TEXT
-PROJECT_NAME=TECH_CHALLENGE_1
-VERSION=0.0.1-SNAPSHOT
-API_V1_STR=/api/v1
-```
-
-#### Security
-- JWT token-based authentication
-- Protected routes using JWT verification
-- Token expiration: 5 minutes
-#### Contributing
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
-
-#### License
-MIT License
+- dados_vitivinicultura: Guarda todos os dados de vitivinicultura da embrapa
+- dados_usuarios: Guarda os dados das contas de usuários
