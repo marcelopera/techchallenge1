@@ -1,8 +1,9 @@
+import os
 import json
 import asyncio
 from app.core.embrapa import get_value, get_description
 from app.core.database import SessionLocal
-from app.models.api_models import Dados
+from app.models.api_models import DadosEmbrapa
 
 async def cache_embrapa_data():
     # Years range to fetch
@@ -21,7 +22,6 @@ async def cache_embrapa_data():
                     description = get_description(opt, sub_opt, year)
                     if data and "dados" in data:
                         for item in data["dados"]:
-                            print(item)
                             cached_item = {
                                 "grupo": data["metadados"]["grupo"],
                                 "subgrupo": data["metadados"]["subgrupo"],
@@ -34,7 +34,6 @@ async def cache_embrapa_data():
                                 "descricao": description
                             }
                             if "valor" in data["metadados"]:
-                                print("possui valor")
                                 cached_item["valor"] = item["valor"]
                                 cached_item["texto_moeda"] = data["metadados"]["valor"]
                             cached_data.append(cached_item)
@@ -43,6 +42,8 @@ async def cache_embrapa_data():
                     print(f"Error fetching data for year {year}, opt {opt}, sub_opt {sub_opt}: {e}")
     
     # Save to file
+    if not os.path.exists("data"):
+        os.mkdir("data")
     with open("data/embrapa_cache.json", "w", encoding="utf-8") as f:
         json.dump(cached_data, f, ensure_ascii=False, indent=2)
 

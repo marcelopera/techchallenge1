@@ -48,11 +48,11 @@ O servidor vai iniciar em http://localhost:8000
 pip install -r requirements.txt
 ```
 
-#### Initial Setup
+##### Cacheando os dados
 1. Cache Embrapa data:
 
 ```bash
-python -m app.scripts.cache_embrapa
+python3 -m app.scripts.cache_embrapa
 ```
 
 2. Start the API server:

@@ -30,11 +30,8 @@ COPY ./data ./data
 # Create SQLite database directory
 RUN mkdir -p /app/data
 
-# Create volume for SQLite database and cache files
-VOLUME ["/app/data"]
-
 # Expose port
 EXPOSE 8000
 
 # Command to run the application
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
