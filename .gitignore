@@ -25,20 +25,10 @@ venv/
 env/
 ENV/
 
-# Environment Variables
-.env
-.env.local
-.env.*.local
-
 # IDE - VSCode
 .vscode/
 *.code-workspace
 .history/
-
-# Database
-*.db
-*.sqlite3
-data/*.db
 
 # Logs, temps and data
 data/
@@ -48,12 +38,3 @@ logs/
 temp/
 .temp/
 *.tmp
-
-# Docker
-.docker/
-docker-compose.override.yml
-
-# Test coverage
-.coverage
-htmlcov/
-.pytest_cache/
