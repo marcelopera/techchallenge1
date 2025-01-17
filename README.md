@@ -36,6 +36,10 @@ Uma RESTful API que provê acesso aos dados de vitivinicultura da Embrapa
 - Endpoints protegidos por JWT
 - Gestão de contas de usuários
 
+#### Diagrama de fases
+
+![diagrama de fases](diagrama_de_fases.png)
+
 #### Technology Stack
 
 - Python 3.8+

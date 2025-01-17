@@ -1,0 +1,68 @@
+@startuml Diagrama_Sequencia_API_Embrapa_Simplificado
+
+actor "Cliente" as Client
+participant "FastAPI\nGateway" as API
+participant "AuthRouter" as Auth
+participant "EmbrapaRouter" as Embrapa
+participant "Security" as Sec
+participant "EmbrapaUtils" as Utils
+database "SQLite\nDatabase" as DB
+
+== Criação de Conta ==
+
+Client -> API: POST /api/v1/auth/sign-in\n{username, password}
+activate API
+API -> Auth: create_account(username, password)
+Auth -> DB: get_usuario_by_username()
+DB --> Auth: existing_user
+alt Usuário não existe
+    Auth -> DB: create_user_account()
+    DB --> Auth: success
+    Auth --> API: HTTP 201 Created
+    API --> Client: HTTP 201 Created
+else Usuário já existe
+    Auth --> API: HTTP 409 Conflict
+    API --> Client: HTTP 409 Conflict
+end
+deactivate API
+
+== Autenticação ==
+
+Client -> API: POST /api/v1/auth/login\n{username, password}
+activate API
+API -> Auth: login(username, password)
+Auth -> DB: get_usuario_by_username()
+DB --> Auth: user_data
+Auth -> Sec: create_access_token()
+Sec --> Auth: JWT token
+Auth --> API: token
+API --> Client: HTTP 200 OK + token
+deactivate API
+
+== Consulta Dados ==
+
+Client -> API: GET /api/v1/embrapa/query\n{Bearer token}
+activate API
+API -> Sec: verify_jwt(token)
+Sec --> API: decoded_token
+API -> Embrapa: getData(opt, sub_opt, year)
+Embrapa -> DB: get_embrapa_data()
+DB --> Embrapa: data
+Embrapa --> API: formatted_data
+API --> Client: HTTP 200 OK + dados
+deactivate API
+
+== Consulta Descrição ==
+
+Client -> API: GET /api/v1/embrapa/description\n{Bearer token}
+activate API
+API -> Sec: verify_jwt(token)
+Sec --> API: decoded_token
+API -> Embrapa: getDescription(opt, sub_opt, year)
+Embrapa -> Utils: get_html(opt, sub_opt, year)
+Utils --> Embrapa: html_content
+Embrapa --> API: description_text
+API --> Client: HTTP 200 OK + descrição
+deactivate API
+
+@enduml
