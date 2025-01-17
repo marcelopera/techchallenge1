@@ -25,9 +25,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
 COPY ./app ./app
-COPY ./data ./data
 
-# Create SQLite database directory
+# Create SQLite database directory and cache data
 RUN mkdir -p /app/data
 
 # Expose port
